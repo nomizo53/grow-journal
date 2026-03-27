@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GROWコーチングジャーナル</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#ffffff;--bg2:#f7f6f2;--bg3:#f0eeea;
+  --text:#1a1a18;--text2:#6b6a66;--text3:#9b9a97;
+  --border:rgba(0,0,0,0.12);--border2:rgba(0,0,0,0.2);
+  --teal:#1D9E75;--teal-dk:#0F6E56;--teal-lt:#E1F5EE;--teal-lt2:#9FE1CB;
+  --amber-bg:#FAEEDA;--amber-dk:#854F0B;
+  --blue-bg:#E6F1FB;--blue-dk:#185FA5;
+  --pink-bg:#FBEAF0;--pink-dk:#993556;
+  --radius-md:8px;--radius-lg:12px;
+}
+@media(prefers-color-scheme:dark){
+  :root{
+    --bg:#1c1c1a;--bg2:#252523;--bg3:#2e2e2b;
+    --text:#f0efe9;--text2:#9b9a97;--text3:#6b6a66;
+    --border:rgba(255,255,255,0.12);--border2:rgba(255,255,255,0.22);
+    --teal:#1D9E75;--teal-dk:#9FE1CB;--teal-lt:#04342C;--teal-lt2:#0F6E56;
+    --amber-bg:#412402;--amber-dk:#FAC775;
+    --blue-bg:#042C53;--blue-dk:#B5D4F4;
+    --pink-bg:#4B1528;--pink-dk:#F4C0D1;
+  }
+}
+body{font-family:-apple-system,BlinkMacSystemFont,'Hiragino Sans',sans-serif;background:var(--bg3);color:var(--text);min-height:100vh}
+.shell{max-width:520px;margin:0 auto;background:var(--bg);min-height:100vh;position:relative}
+header{padding:16px 20px 0;border-bottom:.5px solid var(--border)}
+.logo{font-size:17px;font-weight:600;letter-spacing:-.3px;color:var(--teal);margin-bottom:12px}
+nav{display:flex;overflow-x:auto;gap:0}
+.nb{flex:1;padding:10px 6px;background:none;border:none;border-bottom:2.5px solid transparent;font-size:12px;color:var(--text2);cursor:pointer;white-space:nowrap;font-family:inherit;transition:color .2s;min-width:60px}
+.nb.active{color:var(--teal);border-bottom-color:var(--teal);font-weight:500}
+main{padding:16px 16px 80px}
+.section{display:none}.section.active{display:block}
+.card{background:var(--bg);border:.5px solid var(--border);border-radius:var(--radius-lg);padding:14px 16px;margin-bottom:10px}
+.mcards{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:10px}
+.mc{background:var(--bg2);border-radius:var(--radius-md);padding:12px 8px;text-align:center}
+.ml{font-size:10px;color:var(--text2);margin-bottom:2px}
+.mv{font-size:20px;font-weight:600;color:var(--teal)}
+.btn{padding:9px 18px;border-radius:var(--radius-md);font-size:13px;cursor:pointer;font-family:inherit;transition:all .15s;display:inline-flex;align-items:center;gap:5px}
+.bp{background:var(--teal);color:white;border:none}.bp:hover{background:var(--teal-dk)}.bp:disabled{opacity:.4;cursor:default}
+.bo{background:none;border:.5px solid var(--border2);color:var(--text)}.bo:hover{background:var(--bg2)}
+.pbar{background:var(--bg2);border-radius:4px;height:6px;overflow:hidden}
+.pfill{background:var(--teal);height:6px;border-radius:4px;transition:width .4s}
+.tag{display:inline-block;padding:2px 8px;border-radius:100px;font-size:10px;font-weight:600;border:.5px solid transparent}
+.tG{background:var(--teal-lt);color:var(--teal-dk)}.tR{background:var(--amber-bg);color:var(--amber-dk)}.tO{background:var(--blue-bg);color:var(--blue-dk)}.tW{background:var(--pink-bg);color:var(--pink-dk)}
+.prbox{background:var(--teal-lt);border-left:3px solid var(--teal);border-radius:var(--radius-md);padding:10px 14px;font-size:13px;color:var(--teal-dk);line-height:1.65;margin-bottom:12px}
+.prompts{background:var(--bg2);border-radius:var(--radius-md);padding:8px 12px;font-size:12px;color:var(--text2);line-height:1.65;margin-bottom:8px}
+textarea{width:100%;border:.5px solid var(--border);border-radius:var(--radius-md);padding:10px 12px;font-size:14px;font-family:inherit;color:var(--text);background:var(--bg);resize:vertical;line-height:1.65;min-height:110px}
+textarea:focus{outline:none;border-color:var(--teal)}
+input[type=text],input[type=date]{border:.5px solid var(--border);border-radius:var(--radius-md);padding:8px 10px;font-size:13px;font-family:inherit;color:var(--text);background:var(--bg)}
+input[type=text]:focus,input[type=date]:focus{outline:none;border-color:var(--teal)}
+.rrow{display:flex;gap:5px;flex-wrap:wrap;margin-top:8px}
+.rbtn{min-width:38px;height:38px;padding:0 8px;border-radius:var(--radius-md);border:.5px solid var(--border2);background:none;cursor:pointer;font-size:13px;font-weight:500;color:var(--text2);transition:all .15s;font-family:inherit}
+.rbtn.sel{background:var(--teal);border-color:var(--teal);color:white}
+.ai{display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:.5px solid var(--border)}
+.ai:last-child{border-bottom:none}
+.ach{width:20px;height:20px;border-radius:5px;border:1.5px solid var(--border2);cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;background:none;margin-top:1px;transition:all .15s}
+.ach.ck{background:var(--teal);border-color:var(--teal)}
+.at{flex:1;font-size:14px;line-height:1.5}.at.dn{text-decoration:line-through;color:var(--text2)}
+.am{font-size:11px;color:var(--text3);margin-top:2px}
+.xbtn{background:none;border:none;color:var(--text2);cursor:pointer;font-size:14px;padding:2px 5px;border-radius:4px}.xbtn:hover{color:#A32D2D;background:rgba(163,45,45,.08)}
+.estep{text-align:center;padding:2rem 1rem}
+.si{padding:12px 14px;border-bottom:.5px solid var(--border);cursor:pointer;transition:background .15s}
+.si:hover{background:var(--bg2)}.si:last-child{border-bottom:none}
+h2{font-size:14px;font-weight:600;margin-bottom:10px}
+h3{font-size:13px;font-weight:600;margin-bottom:6px}
+.between{display:flex;justify-content:space-between;align-items:center;margin-top:16px}
+.dot-row{display:flex;align-items:center;gap:0;margin-bottom:20px}
+.dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;transition:all .3s}
+.dot.done{background:var(--teal)}.dot.cur{background:var(--teal-lt2);border:2px solid var(--teal)}.dot.todo{background:var(--bg2);border:.5px solid var(--border)}
+.dline{flex:1;height:1px;background:var(--border)}
+.dlabel{font-size:9px;color:var(--text2);text-align:center;margin-top:3px;white-space:nowrap}
+.dot-wrap{display:flex;flex-direction:column;align-items:center}
+.empty{text-align:center;padding:2.5rem 1rem;color:var(--text2);font-size:13px;line-height:1.9}
+.hint{font-size:12px;color:var(--text2);line-height:1.6;margin-top:8px}
+.grow-title{font-size:15px;font-weight:700;margin-bottom:2px}
+.grow-sub{font-size:12px;color:var(--text2)}
+.mini-chart{display:flex;align-items:flex-end;gap:5px;height:56px;margin-top:10px}
+.bar-wrap{display:flex;flex-direction:column;align-items:center;flex:1;gap:3px}
+.bar{width:100%;background:var(--teal-lt2);border-radius:3px 3px 0 0;min-height:3px}
+.bar-l{font-size:9px;color:var(--text3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:32px}
+</style>
+</head>
+<body>
+<div class="shell">
+  <header>
+    <div class="logo">🌱 GROWジャーナル</div>
+    <nav id="nav">
+      <button class="nb active" data-tab="home">ホーム</button>
+      <button class="nb" data-tab="journal">ジャーナル</button>
+      <button class="nb" data-tab="actions">行動プラン</button>
+      <button class="nb" data-tab="history">振り返り</button>
+    </nav>
+  </header>
+  <main>
+    <div id="tab-home" class="section active"></div>
+    <div id="tab-journal" class="section"></div>
+    <div id="tab-actions" class="section"></div>
+    <div id="tab-history" class="section"></div>
+  </main>
+</div>
+
+<script>
+let state={sessions:[],actions:[]};
+let j={step:0,feeling:0,note:'',goal:'',reality:'',options:'',will:'',confidence:7,tmp:[]};
+let cur='home';
+const FE=['','😞','😕','😐','🙂','😊'];
+
+function load(){
+  try{const r=localStorage.getItem('grow_v2');if(r)state=JSON.parse(r);}catch(e){}
+  render();
+}
+function save(){try{localStorage.setItem('grow_v2',JSON.stringify(state));}catch(e){}}
+function esc(s){return(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+
+function showTab(t){
+  cur=t;
+  document.querySelectorAll('.nb').forEach(b=>b.classList.toggle('active',b.dataset.tab===t));
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.getElementById('tab-'+t).classList.add('active');
+  render();
+}
+document.querySelectorAll('.nb').forEach(b=>b.addEventListener('click',()=>showTab(b.dataset.tab)));
+
+function render(){
+  if(cur==='home')renderHome();
+  else if(cur==='journal')renderJournal();
+  else if(cur==='actions')renderActions();
+  else if(cur==='history')renderHistory();
+}
+
+function renderHome(){
+  const tot=state.actions.length,dn=state.actions.filter(a=>a.done).length;
+  const pct=tot?Math.round(dn/tot*100):0;
+  const latest=state.sessions.length?state.sessions[state.sessions.length-1]:null;
+  const pend=state.actions.filter(a=>!a.done).slice(0,3);
+  const streak=calcStreak();
+  const last5=[...state.sessions].slice(-5);
+  const chartHtml=last5.length>1?`<div><h3 style="margin-bottom:6px">セッション別 自信スコア</h3><div class="mini-chart">${last5.map(s=>{const h=Math.max(4,Math.round((s.confidence/10)*50));return`<div class="bar-wrap"><div class="bar" style="height:${h}px"></div><div class="bar-l">${(s.date||'').slice(5)}</div></div>`;}).join('')}</div></div>`:'';
+
+  document.getElementById('tab-home').innerHTML=`
+    <div class="mcards">
+      <div class="mc"><div class="ml">セッション数</div><div class="mv">${state.sessions.length}</div></div>
+      <div class="mc"><div class="ml">達成率</div><div class="mv">${pct}%</div></div>
+      <div class="mc"><div class="ml">継続日数</div><div class="mv">${streak}</div></div>
+    </div>
+    ${latest?`
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px">
+        <h2 style="margin:0">現在取り組むゴール</h2><span class="tag tG">Goal</span>
+      </div>
+      <div style="font-size:14px;line-height:1.7">${esc(latest.goal.slice(0,120))}${latest.goal.length>120?'...':''}</div>
+      <div style="font-size:11px;color:var(--text2);margin-top:6px">${latest.date} ${FE[latest.feeling]||''} 　自信スコア ${latest.confidence}/10</div>
+    </div>`:`
+    <div class="card" style="text-align:center;padding:24px 16px">
+      <div style="font-size:36px;margin-bottom:10px">🌱</div>
+      <div style="font-size:16px;font-weight:700;margin-bottom:6px">GROWコーチングジャーナル</div>
+      <div style="font-size:13px;color:var(--text2);margin-bottom:16px;line-height:1.75">GROWモデルに沿って自分の思考を整理し、<br>目標達成への行動を積み重ねましょう。</div>
+      <button class="btn bp" onclick="startJournal()">最初のセッションを始める →</button>
+    </div>`}
+    ${tot>0?`<div class="card"><div style="display:flex;justify-content:space-between;font-size:12px;color:var(--text2);margin-bottom:5px"><span>行動プランの進捗</span><span>${dn}/${tot} 完了</span></div><div class="pbar"><div class="pfill" style="width:${pct}%"></div></div>${chartHtml}</div>`:''}
+    ${pend.length>0?`<div class="card"><h2>次のアクション</h2>${pend.map(a=>`<div style="display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:.5px solid var(--border)"><div style="width:6px;height:6px;border-radius:50%;background:var(--teal);flex-shrink:0"></div><span style="font-size:13px">${esc(a.text)}</span>${a.deadline?`<span style="font-size:11px;color:var(--text2);margin-left:auto">${a.deadline}</span>`:''}</div>`).join('')}</div>`:''}
+    ${latest?`<div style="text-align:center;margin-top:8px"><button class="btn bp" onclick="startJournal()">+ 新しいセッション</button></div>`:''}
+  `;
+}
+
+function calcStreak(){
+  if(!state.sessions.length)return 0;
+  const dates=[...new Set(state.sessions.map(s=>s.date))].sort().reverse();
+  let streak=0,check=new Date().toISOString().split('T')[0];
+  for(const d of dates){if(d===check){streak++;const dt=new Date(check);dt.setDate(dt.getDate()-1);check=dt.toISOString().split('T')[0];}else break;}
+  return streak;
+}
+
+function startJournal(){j={step:0,feeling:0,note:'',goal:'',reality:'',options:'',will:'',confidence:7,tmp:[]};showTab('journal');}
+
+const GROW_LABELS=['チェックイン','Goal','Reality','Options','Will'];
+const RAPPORT=['ここは否定やジャッジのない安全な場所です。今日もここに来てくれてありがとうございます。','「本当に手に入れたい結果」を言語化することから始めましょう。','目標と現在地のギャップを正しく認識することが、前進の土台になります。','「できる・できない」の判断を一度手放して、自由にアイデアを広げましょう。','「やりたい」を「やる」に変える、具体的な一歩を決めましょう。'];
+
+function dotRow(step){
+  return`<div class="dot-row">${GROW_LABELS.map((l,i)=>`<div class="dot-wrap"><div class="dot ${i<step?'done':i===step?'cur':'todo'}"></div><div class="dlabel">${l}</div></div>${i<4?'<div class="dline"></div>':''}`).join('')}</div>`;
+}
+
+function renderJournal(){
+  const step=j.step;
+  let content='';
+  if(step===0){
+    content=`
+      <div class="prbox">${RAPPORT[0]}</div>
+      <div class="card"><h3>今日の気分は？</h3><div class="rrow">${['😞','😕','😐','🙂','😊'].map((e,i)=>`<button class="rbtn ${j.feeling===i+1?'sel':''}" onclick="j.feeling=${i+1};renderJournal()">${e}</button>`).join('')}</div></div>
+      <div class="card"><h3>今の状態を一言で（任意）</h3><textarea placeholder="今感じていること、気になっていることを自由に..." oninput="j.note=this.value" style="min-height:80px">${esc(j.note)}</textarea></div>
+    `;
+  }else if(step===1){
+    content=`
+      <div class="prbox">${RAPPORT[1]}</div>
+      <div style="margin-bottom:12px"><div class="grow-title" style="color:var(--teal-dk)">G — Goal <span class="tag tG">目標の明確化</span></div><div class="grow-sub">本当に手に入れたい結果は何でしょうか？</div></div>
+      <div class="prompts">💬 「このセッションが終わるころ、何を持ち帰りたいですか？」</div>
+      <div class="prompts">💬 「1年後、最高の状態になっているとしたら、何が起きていますか？」</div>
+      <textarea placeholder="ゴールを自由に書いてみてください。完璧でなくて大丈夫です..." oninput="j.goal=this.value">${esc(j.goal)}</textarea>
+    `;
+  }else if(step===2){
+    content=`
+      <div class="prbox">${RAPPORT[2]}</div>
+      <div style="margin-bottom:12px"><div class="grow-title" style="color:var(--amber-dk)">R — Reality <span class="tag tR">現状の把握</span></div><div class="grow-sub">今、どこにいるのかを客観的に見つめましょう</div></div>
+      <div class="prompts">💬 「今、具体的に何が起きていますか？」</div>
+      <div class="prompts">💬 「これまでに試したことは？　今の自分の強みは何ですか？」</div>
+      <textarea placeholder="現在地を正直に書いてみましょう..." oninput="j.reality=this.value">${esc(j.reality)}</textarea>
+    `;
+  }else if(step===3){
+    content=`
+      <div class="prbox">${RAPPORT[3]}</div>
+      <div style="margin-bottom:12px"><div class="grow-title" style="color:var(--blue-dk)">O — Options <span class="tag tO">選択肢の創出</span></div><div class="grow-sub">思考のブレーキを外して、可能性を広げましょう</div></div>
+      <div class="prompts">💬 「もし時間とお金が無制限にあるとしたら、何をしますか？」</div>
+      <div class="prompts">💬 「尊敬するあの人なら、この状況でどう動くと思いますか？」</div>
+      <textarea placeholder="思いつくままにアイデアを書いてみましょう..." oninput="j.options=this.value">${esc(j.options)}</textarea>
+    `;
+  }else if(step===4){
+    const aList=j.tmp.map((a,i)=>`<div style="display:flex;align-items:center;gap:8px;padding:7px 10px;background:var(--bg2);border-radius:var(--radius-md);margin-bottom:5px"><div style="width:6px;height:6px;border-radius:50%;background:var(--teal);flex-shrink:0"></div><span style="flex:1;font-size:13px">${esc(a.text)}</span>${a.deadline?`<span style="font-size:11px;color:var(--text2)">${a.deadline}</span>`:''}<button class="xbtn" onclick="rmTmp(${i})">✕</button></div>`).join('');
+    content=`
+      <div style="margin-bottom:12px"><div class="grow-title" style="color:var(--pink-dk)">W — Will <span class="tag tW">意志の確認</span></div><div class="grow-sub">「やりたい」を「やる」に変えましょう</div></div>
+      <div class="card"><h3>今日の気づきや決意</h3><textarea placeholder="このセッションで気づいたこと、決めたことを書いてください..." style="min-height:80px" oninput="j.will=this.value">${esc(j.will)}</textarea></div>
+      <div class="card"><h3>行動プランを追加</h3><div class="prompts">💬 「まず、明日からできる小さな一歩は何ですか？」</div><div style="display:flex;gap:5px;flex-wrap:wrap;margin:8px 0"><input type="text" id="ain" placeholder="具体的なアクション..." style="flex:1;min-width:0"><input type="date" id="adate" style="width:110px"><button class="btn bp" onclick="addTmp()">追加</button></div>${aList||'<div style="font-size:12px;color:var(--text2);text-align:center;padding:5px">まだアクションがありません</div>'}</div>
+      <div class="card"><h3>やり遂げる自信は何点？ <span style="font-size:11px;font-weight:400;color:var(--text2)">(10点満点)</span></h3><div class="rrow">${[1,2,3,4,5,6,7,8,9,10].map(n=>`<button class="rbtn ${j.confidence===n?'sel':''}" onclick="j.confidence=${n};renderJournal()">${n}</button>`).join('')}</div><div class="hint">${j.confidence<=3?'低い場合は、もっと小さな一歩に分解してみましょう。':j.confidence<=6?'障害となりそうなことを書き出すと、自信が高まりますよ。':'素晴らしい！その気持ちを大切に行動しましょう。'}</div></div>
+    `;
+  }else{
+    content=`
+      <div class="estep">
+        <div style="font-size:48px;margin-bottom:12px">🎉</div>
+        <div style="font-size:20px;font-weight:700;margin-bottom:8px">セッション完了！</div>
+        <div style="font-size:13px;color:var(--text2);margin-bottom:8px;line-height:1.75">素晴らしい内省ができました。<br>${j.tmp.length?j.tmp.length+'件の行動プランを追加しました。':''}</div>
+        <div style="font-size:13px;color:var(--text2);margin-bottom:28px">一歩一歩、着実に進んでいきましょう。</div>
+        <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap">
+          <button class="btn bp" onclick="showTab('actions')">行動プランを確認</button>
+          <button class="btn bo" onclick="showTab('home')">ホームへ戻る</button>
+        </div>
+      </div>
+    `;
+  }
+
+  const canNext=step===0?true:step===1?j.goal.trim().length>5:step===2?j.reality.trim().length>5:true;
+  document.getElementById('tab-journal').innerHTML=`
+    ${step<5?dotRow(step):''}
+    ${content}
+    ${step<5?`<div class="between">${step>0?`<button class="btn bo" onclick="jStep(-1)">← 戻る</button>`:'<div></div>'}<button class="btn bp" onclick="jStep(1)" ${!canNext?'disabled':''}>${step===4?'セッションを保存 →':'次へ →'}</button></div>`:''}
+  `;
+}
+
+function jStep(d){
+  if(d>0&&j.step===4){
+    const sess={id:Date.now(),date:new Date().toISOString().split('T')[0],feeling:j.feeling,note:j.note,goal:j.goal,reality:j.reality,options:j.options,will:j.will,confidence:j.confidence,actionCount:j.tmp.length};
+    state.sessions.push(sess);
+    j.tmp.forEach(a=>state.actions.push({id:Date.now()+Math.random(),text:a.text,deadline:a.deadline,done:false,sessionId:sess.id,createdAt:sess.date}));
+    save();j.step=5;
+  }else{j.step=Math.max(0,Math.min(5,j.step+d));}
+  renderJournal();
+}
+function addTmp(){const i=document.getElementById('ain'),dd=document.getElementById('adate');if(!i||!i.value.trim())return;j.tmp.push({text:i.value.trim(),deadline:dd?dd.value:''});i.value='';if(dd)dd.value='';renderJournal();}
+function rmTmp(i){j.tmp.splice(i,1);renderJournal();}
+
+function renderActions(){
+  const pend=state.actions.filter(a=>!a.done);
+  const done=state.actions.filter(a=>a.done);
+  const tot=state.actions.length,dn=done.length;
+  const pct=tot?Math.round(dn/tot*100):0;
+  document.getElementById('tab-actions').innerHTML=`
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px"><h2 style="margin:0">行動プラン</h2>${tot>0?`<span style="font-size:12px;color:var(--text2)">${dn}/${tot} 完了 (${pct}%)</span>`:''}</div>
+    ${tot>0?`<div class="pbar" style="margin-bottom:12px"><div class="pfill" style="width:${pct}%"></div></div>`:''}
+    ${tot===0?`<div class="empty">まだ行動プランがありません。<br>ジャーナルの Will セクションで追加できます。<br><br><button class="btn bp" onclick="startJournal()">ジャーナルを始める →</button></div>`:''}
+    ${pend.length>0?`<div class="card" style="padding:0"><div style="padding:10px 14px;border-bottom:.5px solid var(--border)"><h3>未完了 (${pend.length})</h3></div>${pend.map(a=>aItem(a)).join('')}</div>`:''}
+    ${done.length>0?`<div class="card" style="padding:0;margin-top:10px"><div style="padding:10px 14px;border-bottom:.5px solid var(--border)"><h3 style="color:var(--text2)">完了済み (${done.length})</h3></div>${done.map(a=>aItem(a)).join('')}</div>`:''}
+  `;
+}
+function aItem(a){return`<div class="ai" style="padding:10px 14px"><button class="ach ${a.done?'ck':''}" onclick="togA('${a.id}')">${a.done?`<svg width="10" height="8" viewBox="0 0 10 8"><polyline points="1,4 3.5,6.5 9,1" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>`:''}</button><div style="flex:1"><div class="at ${a.done?'dn':''}">${esc(a.text)}</div>${a.deadline?`<div class="am">期限: ${a.deadline}</div>`:''}${a.createdAt?`<div class="am">${a.createdAt} のセッションより</div>`:''}</div><button class="xbtn" onclick="delA('${a.id}')">✕</button></div>`;}
+function togA(id){const a=state.actions.find(x=>String(x.id)===id);if(a){a.done=!a.done;save();renderActions();}}
+function delA(id){if(!confirm('このアクションを削除しますか？'))return;state.actions=state.actions.filter(x=>String(x.id)!==id);save();renderActions();}
+
+function renderHistory(){
+  const ss=[...state.sessions].reverse();
+  document.getElementById('tab-history').innerHTML=`
+    <h2>セッション履歴</h2>
+    ${ss.length===0?`<div class="empty">まだセッションがありません。<br>最初のジャーナルを始めてみましょう。<br><br><button class="btn bp" onclick="startJournal()">はじめる →</button></div>`
+    :ss.map((s,i)=>sCard(s,i)).join('')}
+  `;
+}
+const GK=[{k:'goal',l:'Goal',c:'tG'},{k:'reality',l:'Reality',c:'tR'},{k:'options',l:'Options',c:'tO'},{k:'will',l:'Will メモ',c:'tW'}];
+function sCard(s,i){
+  return`<div class="card" style="padding:0"><div class="si" onclick="togD(${i})"><div style="display:flex;justify-content:space-between;align-items:flex-start"><div><div style="font-size:11px;color:var(--text2);margin-bottom:3px">${s.date} ${FE[s.feeling]||''}</div><div style="font-size:14px;line-height:1.5">${esc((s.goal||'').slice(0,70))}${(s.goal||'').length>70?'...':''}</div></div><div style="font-size:11px;color:var(--text2);flex-shrink:0;margin-left:10px">自信 ${s.confidence}/10</div></div></div><div id="sd-${i}" style="display:none;padding:14px 16px;border-top:.5px solid var(--border)">${GK.map(gk=>s[gk.k]?`<div style="margin-bottom:12px"><span class="tag ${gk.c}">${gk.l}</span><p style="font-size:13px;margin-top:6px;line-height:1.7">${esc(s[gk.k])}</p></div>`:'').join('')}${s.note?`<div style="margin-bottom:8px"><span style="font-size:11px;color:var(--text2)">チェックインメモ: ${esc(s.note)}</span></div>`:''}<div style="font-size:11px;color:var(--text3)">追加した行動プラン: ${s.actionCount||0}件</div></div></div>`;
+}
+function togD(i){const el=document.getElementById('sd-'+i);if(el)el.style.display=el.style.display==='none'?'block':'none';}
+
+window.startJournal=startJournal;
+window.showTab=showTab;
+window.jStep=jStep;
+window.addTmp=addTmp;
+window.rmTmp=rmTmp;
+window.togA=togA;
+window.delA=delA;
+window.togD=togD;
+window.renderJournal=renderJournal;
+load();
+</script>
+</body>
+</html>
